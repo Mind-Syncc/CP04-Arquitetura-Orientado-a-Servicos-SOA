@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
+                        .requestMatchers("/alunos/**").permitAll()
                         /*.requestMatchers(HttpMethod.POST, "/instrutor").hasRole("ADMIN")
                         .requestMatchers("/instrutor").hasAnyRole("ADMIN", "USER")*/
                         

@@ -18,11 +18,28 @@ public class Aluno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String telefone;
     private String email;
     private String cpf;
 
     @Embedded
     private Endereco endereco;
     private boolean ativo = true;
+
+    public Aluno(DadosCadastroAluno dadosCadastroAluno) {
+        this.nome = dadosCadastroAluno.nome();
+        this.email = dadosCadastroAluno.email();
+        this.cpf = dadosCadastroAluno.cpf();
+        this.endereco = new Endereco(dadosCadastroAluno.dadosEndereco());
+    }
+
+    public void atualizarAluno(DadosAtualizacaoAluno dadosAtualizacaoAluno) {
+        this.nome = dadosAtualizacaoAluno.nome();
+        this.email = dadosAtualizacaoAluno.email();
+        this.cpf = dadosAtualizacaoAluno.cpf();
+        this.endereco = new Endereco(dadosAtualizacaoAluno.dadosEndereco());
+    }
+
+    public void excluir() {
+        this.ativo = false;
+    }
 }
