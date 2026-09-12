@@ -42,7 +42,11 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void redefinirSenhaUsuario(DadosRedefinicaoSenha request, Long id) {
+    public void redefinirSenhaUsuario(DadosRedefinicaoSenha request, Long id, Usuario usuarioLogado) {
+        if (!usuarioLogado.getId().equals(id)) {
+            throw new AcessoNegadoException("Você só pode redefinir a própria senha!");
+        }
+
         Usuario usuario = repository.findById(id).orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
 
         if (!usuario.isAtivo()) {

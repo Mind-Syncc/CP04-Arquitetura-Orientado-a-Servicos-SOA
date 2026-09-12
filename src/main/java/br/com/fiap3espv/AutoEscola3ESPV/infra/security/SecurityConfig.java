@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/alunos/**").permitAll()
+                        .requestMatchers("/instrucao").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/usuarios/redefinicao_senha/**").hasRole("USER")
                         .requestMatchers("/usuarios/**").hasRole("ADMIN")
                         /*.requestMatchers(HttpMethod.POST, "/instrutor").hasRole("ADMIN")
