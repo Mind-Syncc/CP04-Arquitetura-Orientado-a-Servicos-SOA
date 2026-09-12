@@ -1,3 +1,11 @@
+# Integrantes
+
+- Heloísa Fleury Jardim - RM556378
+- Juan Fuentes Rufino - RM557673
+- Rickelmyn de Souza Ruescas - RM556055
+- Paulo Henrique Monteiro Golovanevsky - RM555300
+- Pedro Henrique Silva Batista - RM558137
+
 # AutoEscola3ESPV — Melhorias Implementadas
 
 Este documento descreve as melhorias desenvolvidas sobre o projeto base da AutoEscola, com foco em segurança, gestão de usuários e regras de negócio para o cancelamento de instruções.
