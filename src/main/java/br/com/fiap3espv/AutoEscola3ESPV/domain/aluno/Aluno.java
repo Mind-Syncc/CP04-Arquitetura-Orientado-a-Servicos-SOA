@@ -34,8 +34,6 @@ public class Aluno {
 
     public void atualizarAluno(DadosAtualizacaoAluno dadosAtualizacaoAluno) {
         this.nome = dadosAtualizacaoAluno.nome();
-        this.email = dadosAtualizacaoAluno.email();
-        this.cpf = dadosAtualizacaoAluno.cpf();
         this.endereco = new Endereco(dadosAtualizacaoAluno.dadosEndereco());
     }
 

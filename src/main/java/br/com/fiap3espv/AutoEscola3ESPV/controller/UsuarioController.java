@@ -3,6 +3,7 @@ package br.com.fiap3espv.AutoEscola3ESPV.controller;
 import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosAtualizacaoUsuario;
 import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosCadastroUsuario;
 import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosDetalhamentoUsuario;
+import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosListagemUsuario;
 import br.com.fiap3espv.AutoEscola3ESPV.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<DadosDetalhamentoUsuario>> listarUsuarios(@PageableDefault(size = 10, sort = "login") Pageable pageable) {
+    public ResponseEntity<Page<DadosListagemUsuario>> listarUsuarios(@PageableDefault(size = 10, sort = "login") Pageable pageable) {
         return ResponseEntity.ok(service.listarUsuarios(pageable));
     }
 

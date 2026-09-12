@@ -38,6 +38,13 @@ public class AlunoService {
     @Transactional
     public DadosDetalhamentoAluno atualizarAluno(DadosAtualizacaoAluno dadosAtualizacaoAluno, Long id) {
         Aluno aluno = repository.findById(id).orElseThrow(() -> new AlunoNotFoundException("Aluno não encontrado"));
+
+        if (!dadosAtualizacaoAluno.email().equalsIgnoreCase(aluno.getEmail())) {
+            throw new RuntimeException("O campo de Email não pode ser alterado");
+        } else if (!dadosAtualizacaoAluno.cpf().equalsIgnoreCase(aluno.getCpf())) {
+            throw new RuntimeException("O campo de CPF não pode ser alterado");
+        }
+
         aluno.atualizarAluno(dadosAtualizacaoAluno);
         return new DadosDetalhamentoAluno(aluno);
     }

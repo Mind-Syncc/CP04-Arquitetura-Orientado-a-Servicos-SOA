@@ -28,14 +28,15 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public Page<DadosDetalhamentoUsuario> listarUsuarios(Pageable pageable) {
-        return repository.findAllByAtivoTrue(pageable).map(DadosDetalhamentoUsuario::new);
+    public Page<DadosListagemUsuario> listarUsuarios(Pageable pageable) {
+        return repository.findAllByAtivoTrue(pageable).map(DadosListagemUsuario::new);
     }
 
     @Transactional
     public DadosDetalhamentoUsuario atualizarUsuario(DadosAtualizacaoUsuario request, Long id) {
         Usuario usuario = repository.findById(id).orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
         usuario.atualizarDados(request);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         repository.save(usuario);
         return new DadosDetalhamentoUsuario(usuario);
     }
