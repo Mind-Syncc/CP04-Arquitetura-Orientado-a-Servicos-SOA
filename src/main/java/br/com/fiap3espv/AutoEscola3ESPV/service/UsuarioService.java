@@ -42,6 +42,20 @@ public class UsuarioService {
     }
 
     @Transactional
+    public void redefinirSenhaUsuario(DadosRedefinicaoSenha request, Long id) {
+        Usuario usuario = repository.findById(id).orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
+
+        if (!usuario.isAtivo()) {
+            throw new RuntimeException("O usuário está desativado");
+        } else if (passwordEncoder.matches(request.senha(), usuario.getSenha())) {
+            throw new RuntimeException("A senha precisa ser diferente da original");
+        }
+
+        usuario.redefinirSenha(request.senha());
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+    }
+
+    @Transactional
     public void removerUsuario(Long id) {
         Usuario usuario = repository.findById(id).orElseThrow(() -> new UsuarioNotFoundException("Usuário não encontrado"));
         usuario.removerUsuario();

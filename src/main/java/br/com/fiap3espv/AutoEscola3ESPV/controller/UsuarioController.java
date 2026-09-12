@@ -1,11 +1,9 @@
 package br.com.fiap3espv.AutoEscola3ESPV.controller;
 
-import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosAtualizacaoUsuario;
-import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosCadastroUsuario;
-import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosDetalhamentoUsuario;
-import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.DadosListagemUsuario;
+import br.com.fiap3espv.AutoEscola3ESPV.domain.usuario.*;
 import br.com.fiap3espv.AutoEscola3ESPV.service.UsuarioService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +36,12 @@ public class UsuarioController {
                                                                      @PathVariable Long id) {
         DadosDetalhamentoUsuario response = service.atualizarUsuario(request, id);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping("/redefinicao_senha/{id}")
+    public ResponseEntity<Void> redefinirSenhaUsuario(@RequestBody @Valid DadosRedefinicaoSenha novaSenha, @PathVariable Long id) {
+        service.redefinirSenhaUsuario(novaSenha, id);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

@@ -77,6 +77,10 @@ public class Usuario implements UserDetails {
         this.role = request.role();
     }
 
+    public void redefinirSenha(String novaSenha) {
+        this.senha = novaSenha;
+    }
+
     public void removerUsuario() {
         this.ativo = false;
     }
