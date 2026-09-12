@@ -70,7 +70,7 @@ A validação das regras de cancelamento foi implementada seguindo o padrão **S
 O status de cancelamento e o motivo são persistidos na própria instrução (`cancelada`, `motivo_cancelamento`), preservando o histórico do agendamento em vez de removê-lo da base.
 
 ## Exemplos de Requisições 
-> É indicado criar um Usuário ADMIN manualmente no banco para testar melhor os recursos da aplicação
+> É indicado criar um Usuário ADMIN manualmente no banco de dados para testar melhor os recursos da aplicação
 
 ### Cadastro de Aluno
 
