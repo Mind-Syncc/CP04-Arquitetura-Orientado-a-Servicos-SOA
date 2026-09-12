@@ -31,4 +31,24 @@ public class Instrucao {
 
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
+
+    @Column(name = "cancelada")
+    private boolean cancelada = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "motivo_cancelamento")
+    private MotivoCancelamento motivoCancelamento = null;
+
+    public Instrucao(Aluno aluno, Instrutor instrutor, LocalDateTime dataHora) {
+        this.aluno = aluno;
+        this.instrutor = instrutor;
+        this.dataHora = dataHora;
+        this.cancelada = false;
+        this.motivoCancelamento = null;
+    }
+
+    public void cancelar(MotivoCancelamento motivo) {
+        this.cancelada = true;
+        this.motivoCancelamento = motivo;
+    }
 }

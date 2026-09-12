@@ -1,0 +1,3 @@
+ALTER TABLE instrucoes
+    ADD COLUMN cancelada BOOLEAN NOT NULL DEFAULT FALSE,
+    ADD COLUMN motivo_cancelamento VARCHAR(50) NULL;

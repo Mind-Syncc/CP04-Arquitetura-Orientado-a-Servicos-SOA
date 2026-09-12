@@ -20,4 +20,10 @@ public class InstrucaoController {
     public ResponseEntity<DetalhamentoAgendamento> agendarInstrucao(@RequestBody @Valid DadosAgendamento dados) {
         return ResponseEntity.ok(agenda.agendar(dados));
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> cancelarInstrucao(@RequestBody @Valid DadosRemocaoAgenda request) {
+        agenda.cancelar(request);
+        return ResponseEntity.noContent().build();
+    }
 }

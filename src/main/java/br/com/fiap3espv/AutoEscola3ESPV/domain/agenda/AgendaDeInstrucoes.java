@@ -1,6 +1,7 @@
 package br.com.fiap3espv.AutoEscola3ESPV.domain.agenda;
 
 import br.com.fiap3espv.AutoEscola3ESPV.domain.agenda.validacao.ValidadorAgendamento;
+import br.com.fiap3espv.AutoEscola3ESPV.domain.agenda.validacao.ValidadorCancelamento;
 import br.com.fiap3espv.AutoEscola3ESPV.domain.agenda.validacao.ValidadorConflitoHorarioInstrutor;
 import br.com.fiap3espv.AutoEscola3ESPV.domain.aluno.Aluno;
 import br.com.fiap3espv.AutoEscola3ESPV.domain.aluno.AlunoNotFoundException;
@@ -10,6 +11,7 @@ import br.com.fiap3espv.AutoEscola3ESPV.domain.instrutor.InstrutorNotFoundExcept
 import br.com.fiap3espv.AutoEscola3ESPV.domain.instrutor.InstrutorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +22,9 @@ public class AgendaDeInstrucoes {
     private final AlunoRepository alunoRepository;
     private final InstrutorRepository instrutorRepository;
     private final List<ValidadorAgendamento> validadoresAgendamento;
+    private final List<ValidadorCancelamento> validadoresCancelamento;
 
+    @Transactional
     public DetalhamentoAgendamento agendar(DadosAgendamento dados) {
         if (!alunoRepository.existsById(dados.idAluno())) {
             throw new AlunoNotFoundException("ID do aluno informado não existe!");
@@ -37,7 +41,7 @@ public class AgendaDeInstrucoes {
             throw new ValidacaoException("Nenhum instrutor disponível para a data/hora informada!");
         }
 
-        Instrucao instrucao = new Instrucao(null, aluno, instrutor, dados.dataHora());
+        Instrucao instrucao = new Instrucao(aluno, instrutor, dados.dataHora());
         Instrucao salvo = repository.save(instrucao);
         return new DetalhamentoAgendamento(salvo);
     }
@@ -51,4 +55,16 @@ public class AgendaDeInstrucoes {
         }
         return instrutorRepository.escolherInstrutorAleatorioDisponivel(dados.especialidade(), dados.dataHora());
     }
+
+    @Transactional
+    public void cancelar(DadosRemocaoAgenda dados) {
+        Instrucao instrucao = repository.findById(dados.idInstrucao())
+                .orElseThrow(() -> new InstrucaoNotFoundException("ID da instrução informado não existe!"));
+
+        validadoresCancelamento.forEach(v -> v.validar(instrucao));
+
+        instrucao.cancelar(dados.motivoCancelamento());
+    }
+
+
 }

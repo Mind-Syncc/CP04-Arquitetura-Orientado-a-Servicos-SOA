@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class ValidadorInstrutorAtivo implements ValidadorAgendamento {
-    private InstrutorRepository instrutorRepository;
+    private final InstrutorRepository instrutorRepository;
 
     @Override
     public void validar(DadosAgendamento dados) {
