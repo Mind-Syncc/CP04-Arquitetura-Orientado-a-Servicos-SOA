@@ -1,10 +1,7 @@
 package br.com.fiap3espv.AutoEscola3ESPV.domain.usuario;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,11 +21,24 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
+
+    @Setter
     private String senha;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    private boolean ativo = true;
+
+    public Usuario(DadosCadastroUsuario request) {
+        this.login = request.login();
+        this.senha = request.senha();
+        this.role = request.role();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
     @Override
@@ -59,5 +69,15 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void atualizarDados(DadosAtualizacaoUsuario request) {
+        this.login = request.login();
+        this.senha = request.senha();
+        this.role = request.role();
+    }
+
+    public void removerUsuario() {
+        this.ativo = false;
     }
 }

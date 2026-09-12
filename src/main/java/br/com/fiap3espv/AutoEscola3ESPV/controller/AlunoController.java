@@ -40,7 +40,6 @@ public class AlunoController {
         return ResponseEntity.ok(service.buscarAlunoPorId(id));
     }
 
-    // PUT
     @PutMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoAluno> atualizarAluno(@RequestBody @Valid DadosAtualizacaoAluno request, @PathVariable Long id) {
         return ResponseEntity.ok(service.atualizarAluno(request, id));
