@@ -1,6 +1,8 @@
 package br.com.fiap3espv.AutoEscola3ESPV.service;
 
 import br.com.fiap3espv.AutoEscola3ESPV.domain.aluno.*;
+import br.com.fiap3espv.AutoEscola3ESPV.domain.endereco.DadosEndereco;
+import br.com.fiap3espv.AutoEscola3ESPV.utils.BuscaEnderecoViaCep;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +21,9 @@ public class AlunoService {
             throw new RuntimeException("CPF já cadastrado no sistema");
         }
 
-        Aluno aluno = new Aluno(request);
+        DadosEndereco dadosEndereco = BuscaEnderecoViaCep.buscarCep(request.cep(), request.numero());
+
+        Aluno aluno = new Aluno(request, dadosEndereco);
         repository.save(aluno);
         return new DadosDetalhamentoAluno(aluno);
     }

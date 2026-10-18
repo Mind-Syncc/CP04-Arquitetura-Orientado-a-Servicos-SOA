@@ -1,5 +1,6 @@
 package br.com.fiap3espv.AutoEscola3ESPV.domain.aluno;
 
+import br.com.fiap3espv.AutoEscola3ESPV.domain.endereco.DadosEndereco;
 import br.com.fiap3espv.AutoEscola3ESPV.domain.endereco.Endereco;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,11 +26,11 @@ public class Aluno {
     private Endereco endereco;
     private boolean ativo = true;
 
-    public Aluno(DadosCadastroAluno dadosCadastroAluno) {
+    public Aluno(DadosCadastroAluno dadosCadastroAluno, DadosEndereco dadosEndereco) {
         this.nome = dadosCadastroAluno.nome();
         this.email = dadosCadastroAluno.email();
         this.cpf = dadosCadastroAluno.cpf();
-        this.endereco = new Endereco(dadosCadastroAluno.dadosEndereco());
+        this.endereco = new Endereco(dadosEndereco);
     }
 
     public void atualizarAluno(DadosAtualizacaoAluno dadosAtualizacaoAluno) {

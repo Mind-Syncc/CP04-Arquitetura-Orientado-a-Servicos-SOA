@@ -1,8 +1,11 @@
 package br.com.fiap3espv.AutoEscola3ESPV.domain.endereco;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record DadosEndereco(
         @NotBlank
         String logradouro,
@@ -13,6 +16,7 @@ public record DadosEndereco(
         String bairro,
 
         @NotBlank
+        @JsonProperty("localidade")
         String cidade,
 
         @NotBlank
