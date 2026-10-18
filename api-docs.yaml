@@ -428,7 +428,7 @@ components:
         bairro:
           type: string
           minLength: 1
-        cidade:
+        localidade:
           type: string
           minLength: 1
         uf:
@@ -442,7 +442,7 @@ components:
       required:
       - bairro
       - cep
-      - cidade
+      - localidade
       - logradouro
       - uf
     DadosDetalhamentoInstrutor:
@@ -622,11 +622,14 @@ components:
         cpf:
           type: string
           minLength: 1
-        dadosEndereco:
-          $ref: "#/components/schemas/DadosEndereco"
+        numero:
+          type: string
+        cep:
+          type: string
+          pattern: "[0-9]{8}"
       required:
+      - cep
       - cpf
-      - dadosEndereco
       - email
       - nome
     Pageable:
@@ -699,14 +702,14 @@ components:
           format: int64
         paged:
           type: boolean
-        sort:
-          $ref: "#/components/schemas/SortObject"
         pageSize:
           type: integer
           format: int32
         pageNumber:
           type: integer
           format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
         unpaged:
           type: boolean
     SortObject:
