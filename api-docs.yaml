@@ -1,0 +1,830 @@
+openapi: 3.1.0
+info:
+  title: AutoEscola3ESPV API
+  description: "API REST para gerenciamento de alunos, instrutores, usuários e instruç\
+    ões"
+  contact:
+    name: |-
+      Heloísa Fleury Jardim - RM556378
+      Juan Fuentes Rufino - RM557673
+      Rickelmyn de Souza Ruescas - RM556055
+      Paulo Henrique Monteiro Golovanevsky - RM555300
+      Pedro Henrique Silva Batista - RM558137
+  version: v1
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+security:
+- bearerAuth: []
+paths:
+  /usuarios/{id}:
+    put:
+      tags:
+      - usuario-controller
+      operationId: atualizarUsuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAtualizacaoUsuario"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoUsuario"
+    delete:
+      tags:
+      - usuario-controller
+      operationId: removerUsuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /usuarios/redefinicao_senha/{id}:
+    put:
+      tags:
+      - usuario-controller
+      operationId: redefinirSenhaUsuario
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosRedefinicaoSenha"
+        required: true
+      responses:
+        "200":
+          description: OK
+  /instrutor:
+    get:
+      tags:
+      - instrutor-controller
+      operationId: listarInstrutores
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemInstrutores"
+    put:
+      tags:
+      - instrutor-controller
+      operationId: atualizarInstrutor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAtualizacaoInstrutor"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoInstrutor"
+    post:
+      tags:
+      - instrutor-controller
+      operationId: cadastrarInstrutor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCadastroInstrutor"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoInstrutor"
+  /alunos/{id}:
+    get:
+      tags:
+      - aluno-controller
+      operationId: buscarAlunoPorId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoAluno"
+    put:
+      tags:
+      - aluno-controller
+      operationId: atualizarAluno
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAtualizacaoAluno"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoAluno"
+    delete:
+      tags:
+      - aluno-controller
+      operationId: removerAluno
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /usuarios:
+    get:
+      tags:
+      - usuario-controller
+      operationId: listarUsuarios
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemUsuario"
+    post:
+      tags:
+      - usuario-controller
+      operationId: cadastrarUsuario
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCadastroUsuario"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoUsuario"
+  /login:
+    post:
+      tags:
+      - login-controller
+      operationId: efetuarLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosLogin"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /instrucao:
+    post:
+      tags:
+      - instrucao-controller
+      operationId: agendarInstrucao
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosAgendamento"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DetalhamentoAgendamento"
+    delete:
+      tags:
+      - instrucao-controller
+      operationId: cancelarInstrucao
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosRemocaoAgenda"
+        required: true
+      responses:
+        "200":
+          description: OK
+  /alunos:
+    get:
+      tags:
+      - aluno-controller
+      operationId: listarAlunos
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageDadosListagemAluno"
+    post:
+      tags:
+      - aluno-controller
+      operationId: cadastrarAluno
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DadosCadastroAluno"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoAluno"
+  /instrutor/{id}:
+    get:
+      tags:
+      - instrutor-controller
+      operationId: detalharInstrutor
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DadosDetalhamentoInstrutor"
+    delete:
+      tags:
+      - instrutor-controller
+      operationId: excluirInstrutor
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /health-check:
+    get:
+      tags:
+      - health-check-controller
+      operationId: healthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+components:
+  schemas:
+    DadosAtualizacaoUsuario:
+      type: object
+      properties:
+        login:
+          type: string
+          minLength: 1
+        senha:
+          type: string
+          minLength: 1
+        role:
+          type: string
+          enum:
+          - ADMIN
+          - USER
+      required:
+      - login
+      - role
+      - senha
+    DadosDetalhamentoUsuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        role:
+          type: string
+          enum:
+          - ADMIN
+          - USER
+    DadosRedefinicaoSenha:
+      type: object
+      properties:
+        senha:
+          type: string
+          minLength: 1
+      required:
+      - senha
+    DadosAtualizacaoInstrutor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+          format: email
+        especialidade:
+          type: string
+          enum:
+          - MOTOS
+          - CARROS
+          - VANS
+          - CAMINHOES
+        endereco:
+          $ref: "#/components/schemas/DadosEndereco"
+      required:
+      - id
+    DadosEndereco:
+      type: object
+      properties:
+        logradouro:
+          type: string
+          minLength: 1
+        numero:
+          type: string
+        complemento:
+          type: string
+        bairro:
+          type: string
+          minLength: 1
+        cidade:
+          type: string
+          minLength: 1
+        uf:
+          type: string
+          minLength: 1
+          pattern: "[A-Z]{2}"
+        cep:
+          type: string
+          minLength: 1
+          pattern: "[0-9]{8}"
+      required:
+      - bairro
+      - cep
+      - cidade
+      - logradouro
+      - uf
+    DadosDetalhamentoInstrutor:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        telefone:
+          type: string
+        email:
+          type: string
+        cnh:
+          type: string
+        especialidade:
+          type: string
+          enum:
+          - MOTOS
+          - CARROS
+          - VANS
+          - CAMINHOES
+        endereco:
+          $ref: "#/components/schemas/DadosEndereco"
+        ativo:
+          type: boolean
+    DadosAtualizacaoAluno:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        cpf:
+          type: string
+          minLength: 1
+        dadosEndereco:
+          $ref: "#/components/schemas/DadosEndereco"
+      required:
+      - cpf
+      - dadosEndereco
+      - email
+      - nome
+    DadosDetalhamentoAluno:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+        cpf:
+          type: string
+        dadosEndereco:
+          $ref: "#/components/schemas/DadosEndereco"
+        ativo:
+          type: boolean
+    DadosCadastroUsuario:
+      type: object
+      properties:
+        login:
+          type: string
+          minLength: 1
+        senha:
+          type: string
+          minLength: 1
+        role:
+          type: string
+          enum:
+          - ADMIN
+          - USER
+      required:
+      - login
+      - role
+      - senha
+    DadosLogin:
+      type: object
+      properties:
+        login:
+          type: string
+          minLength: 1
+        senha:
+          type: string
+          minLength: 1
+      required:
+      - login
+      - senha
+    DadosCadastroInstrutor:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        telefone:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        cnh:
+          type: string
+          minLength: 1
+          pattern: "\\d{9,11}"
+        especialidade:
+          type: string
+          enum:
+          - MOTOS
+          - CARROS
+          - VANS
+          - CAMINHOES
+        endereco:
+          $ref: "#/components/schemas/DadosEndereco"
+      required:
+      - cnh
+      - email
+      - especialidade
+      - nome
+      - telefone
+    DadosAgendamento:
+      type: object
+      properties:
+        idAluno:
+          type: integer
+          format: int64
+        idInstrutor:
+          type: integer
+          format: int64
+        especialidade:
+          type: string
+          enum:
+          - MOTOS
+          - CARROS
+          - VANS
+          - CAMINHOES
+        dataHora:
+          type: string
+          format: date-time
+      required:
+      - dataHora
+      - idAluno
+    DetalhamentoAgendamento:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome_aluno:
+          type: string
+        nome_instrutor:
+          type: string
+        especialidade:
+          type: string
+          enum:
+          - MOTOS
+          - CARROS
+          - VANS
+          - CAMINHOES
+        data_hora:
+          type: string
+          format: date-time
+    DadosCadastroAluno:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        cpf:
+          type: string
+          minLength: 1
+        dadosEndereco:
+          $ref: "#/components/schemas/DadosEndereco"
+      required:
+      - cpf
+      - dadosEndereco
+      - email
+      - nome
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+          minimum: 0
+        size:
+          type: integer
+          format: int32
+          minimum: 1
+        sort:
+          type: array
+          items:
+            type: string
+    DadosListagemUsuario:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        login:
+          type: string
+        senha:
+          type: string
+        role:
+          type: string
+          enum:
+          - ADMIN
+          - USER
+    PageDadosListagemUsuario:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemUsuario"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        paged:
+          type: boolean
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageSize:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+    DadosListagemInstrutores:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
+        especialidade:
+          type: string
+          enum:
+          - MOTOS
+          - CARROS
+          - VANS
+          - CAMINHOES
+    PageDadosListagemInstrutores:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemInstrutores"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    DadosListagemAluno:
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        cpf:
+          type: string
+    PageDadosListagemAluno:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/DadosListagemAluno"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        empty:
+          type: boolean
+    DadosRemocaoAgenda:
+      type: object
+      properties:
+        idInstrucao:
+          type: integer
+          format: int64
+        motivoCancelamento:
+          type: string
+          enum:
+          - DESISTENCIA
+          - CANCELAMENTO_INSTRUTOR
+          - OUTRO
+      required:
+      - idInstrucao
+      - motivoCancelamento
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
